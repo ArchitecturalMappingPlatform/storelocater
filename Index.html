@@ -1,0 +1,41 @@
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.21.0/mapbox-gl.css' rel='stylesheet' />
+<div class='sidebar'>
+  <div class='heading'>
+    <h1>Our locations</h1>
+  </div>
+  <div id='listings' class='listings'></div>
+</div>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW1wZ3JvdXAiLCJhIjoiY2l1NHRsNWVuMDAxOTN0cGxmYng4OWJ4cSJ9.Bbh1QdblVLQfufvcH_LQyQ';
+// This adds the map to your page
+var map = new mapboxgl.Map({
+  // container id specified in the HTML
+  container: 'map',
+  // style URL
+  style: 'mapbox://styles/mapbox/light-v9',
+  // initial position in [long, lat] format
+  center: [-77.034084, 38.909671],
+  // initial zoom
+  zoom: 14
+});
+var stores = {
+  /* data from sweetgreen.geojson, downloaded above */
+};
+map.on('load', function(e) {
+  // Add the stores data as a source
+  map.addSource('places', {
+    type: 'geojson',
+    data: stores
+  });
+
+  // Add a layer to the map with styling rules to render the source
+  map.addLayer({
+    id: 'locations',
+    type: 'symbol',
+    source: 'places',
+    layout: {
+      'icon-image': 'restaurant-15',
+      'icon-allow-overlap': true
+    }
+  });
+});
